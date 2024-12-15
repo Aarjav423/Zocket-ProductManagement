@@ -2,36 +2,36 @@
 ## Project Structure Overview
 Here’s a breakdown of the key components in the project:
 
-### Main Application (main.go):
+#### Main Application (main.go):
 
 Initializes and connects to the database, Redis, and RabbitMQ.
 Registers product routes using the Gin framework.
 Starts background consumers (like the image processing task) for handling asynchronous tasks.
 Handles graceful shutdown upon termination signals.
-### Configuration (config/):
+#### Configuration (config/):
 
 InitDB(): Initializes a connection to a PostgreSQL database using GORM.
 InitRedis(): Sets up a Redis client for caching.
 InitRabbitMQ(): Establishes a connection to RabbitMQ, and manages reconnection logic.
-### RabbitMQ Manager (config/rabbitmq_manager.go):
+#### RabbitMQ Manager (config/rabbitmq_manager.go):
 
 RabbitMQManager: Manages connections and channels to RabbitMQ.
 Reconnect(): Reconnects to RabbitMQ if the connection or channel is lost, with retry logic.
-### Handlers (handlers/):
+#### Handlers (handlers/):
 
 RegisterProductRoutes(): Registers routes for product creation and retrieval.
 Product Handlers: Handle HTTP requests for creating, retrieving, and listing products.
-### Services (services/):
+#### Services (services/):
 
 CreateProduct(): Saves a product to the database and publishes a message to RabbitMQ.
 GetProductByID(): Retrieves a product by ID from Redis (cache) or falls back to the database.
 GetProducts(): Fetches products with optional filters from the database.
 PublishToQueue(): Publishes messages to RabbitMQ.
-### Models (models/):
+#### Models (models/):
 
 Defines the structure of User and Product models for use with the database.
 Includes fields for product information like name, description, images, and price.
-### Queue (queue/):
+#### Queue (queue/):
 
 StartImageProcessingConsumer(): Consumes image processing tasks from a RabbitMQ queue and processes them asynchronously.
 ## Architectural Choices
